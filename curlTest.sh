@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -d '{"email": "hello@b.se", "first_name" : "a", "last_name": "b", "amount": 100}' http://localhost:8080/decisions
