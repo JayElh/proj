@@ -17,10 +17,11 @@ public class PurchaseRequest {
 
     /**
      * Initializes a Purchase request
-     * @param email the email address of the user
+     *
+     * @param email      the email address of the user
      * @param first_name of the user
-     * @param last_name of the user
-     * @param amount of the purchase
+     * @param last_name  of the user
+     * @param amount     of the purchase
      */
     public PurchaseRequest(String email, String first_name, String last_name, int amount) {
         this.email = email;
@@ -30,7 +31,6 @@ public class PurchaseRequest {
     }
 
     /**
-     *
      * @return the email address of the user
      */
     public String getEmail() {
@@ -39,6 +39,7 @@ public class PurchaseRequest {
 
     /**
      * Stores the email address of the user
+     *
      * @param email the email address of the user
      */
     public void setEmail(String email) {
@@ -46,7 +47,6 @@ public class PurchaseRequest {
     }
 
     /**
-     *
      * @return the first name of the user
      */
     public String getFirst_name() {
@@ -55,6 +55,7 @@ public class PurchaseRequest {
 
     /**
      * Stores the first name of the user
+     *
      * @param first_name
      */
     public void setFirst_name(String first_name) {
@@ -62,7 +63,6 @@ public class PurchaseRequest {
     }
 
     /**
-     *
      * @return the last name of the user
      */
     public String getLast_name() {
@@ -71,6 +71,7 @@ public class PurchaseRequest {
 
     /**
      * Stores the last name of the user
+     *
      * @param last_name
      */
     public void setLast_name(String last_name) {
@@ -78,7 +79,6 @@ public class PurchaseRequest {
     }
 
     /**
-     *
      * @return the amount of the purchase
      */
     public int getAmount() {
@@ -87,6 +87,7 @@ public class PurchaseRequest {
 
     /**
      * Stores the amount of the purchase
+     *
      * @param amount of the purchase
      */
     public void setAmount(int amount) {

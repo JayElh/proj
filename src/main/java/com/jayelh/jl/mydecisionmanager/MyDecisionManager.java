@@ -21,11 +21,10 @@ public class MyDecisionManager implements DecisionManager {
     }
 
     /**
-     *
      * @return The singleton instance of MyDecisionManager
      */
     public static MyDecisionManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new MyDecisionManager();
         }
         return instance;
@@ -41,7 +40,7 @@ public class MyDecisionManager implements DecisionManager {
         Decision decision = new Decision();
         int debt = 0;
 
-        synchronized(this) {
+        synchronized (this) {
             if (map.containsKey(purchaseRequest.getEmail())) {
                 debt = map.get(purchaseRequest.getEmail());
             }

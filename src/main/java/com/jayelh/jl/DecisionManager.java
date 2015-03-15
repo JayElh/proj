@@ -8,6 +8,7 @@ package com.jayelh.jl;
 public interface DecisionManager {
     /**
      * Makes a decision of a purchaseRequest
+     *
      * @param purchaseRequest the purchase that should be acted on
      * @return the decision of the purchase
      */

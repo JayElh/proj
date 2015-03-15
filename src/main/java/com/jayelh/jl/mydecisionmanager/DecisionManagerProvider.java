@@ -21,13 +21,17 @@ public class DecisionManagerProvider implements InjectableProvider<Context, Type
      * {@inheritDoc}
      */
     @Override
-    public DecisionManager getValue() {return MyDecisionManager.getInstance(); }
+    public DecisionManager getValue() {
+        return MyDecisionManager.getInstance();
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ComponentScope getScope() { return ComponentScope.Singleton; }
+    public ComponentScope getScope() {
+        return ComponentScope.Singleton;
+    }
 
     /**
      * {@inheritDoc}

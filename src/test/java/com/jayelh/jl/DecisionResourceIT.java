@@ -17,12 +17,20 @@ import com.sun.jersey.test.framework.WebAppDescriptor;
 
 import javax.ws.rs.core.MediaType;
 
+/**
+ * Integration Test for the DecsionResource
+ */
 public class DecisionResourceIT extends JerseyTest {
     @Override
     protected AppDescriptor configure() {
         return new WebAppDescriptor.Builder().build();
     }
 
+    /**
+     * Tests first repeatedly request for the same user untill debt to high. After that tries another user once.
+     * @throws JSONException
+     * @throws URISyntaxException
+     */
     @Test
     public void testRepeated() throws JSONException,
             URISyntaxException {
@@ -51,22 +59,32 @@ public class DecisionResourceIT extends JerseyTest {
         assertEquals("ok", json.get("reason"));
     }
 
+    /**
+     * Tests a request with to hight amount.
+     * @throws JSONException
+     * @throws URISyntaxException
+     */
     @Test
     public void testAmount() throws JSONException,
             URISyntaxException {
         WebResource webResource = client().resource("http://localhost:8080/");
-        JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_JSON).post(JSONObject.class, "{\"email\": \"a@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": 1100}");
+        JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_JSON).post(JSONObject.class, "{\"email\": \"c@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": 1100}");
         assertEquals(Boolean.FALSE, json.get("accepted"));
         assertEquals("amount", json.get("reason"));
 
     }
 
+    /**
+     * Tests a request with a non allowed mediatype.
+     * @throws JSONException
+     * @throws URISyntaxException
+     */
     @Test
     public void testWrongMediaType() throws JSONException,
             URISyntaxException {
         WebResource webResource = client().resource("http://localhost:8080/");
         try {
-            JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_XHTML_XML).post(JSONObject.class, "{\"email\": \"a@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": 100}");
+            JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_XHTML_XML).post(JSONObject.class, "{\"email\": \"d@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": 100}");
         } catch (UniformInterfaceException e) {
             return;
         }

@@ -74,4 +74,7 @@ public class MyDecisionManagerTest
         assertEquals("Reason should be amount", decision.getReason(), Decision.REASON_AMOUNT);
         assertFalse("Should be false", decision.getAccepted());
     }
+
+    //TODO: error cases
+
 }

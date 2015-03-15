@@ -30,8 +30,9 @@ public class Decision {
 
     /**
      * Initializes a decision
+     *
      * @param accepted if the decision in the accept or not.
-     * @param reason the reason of the decision.
+     * @param reason   the reason of the decision.
      */
     public Decision(boolean accepted, String reason) {
         this.accepted = accepted;
@@ -39,7 +40,6 @@ public class Decision {
     }
 
     /**
-     *
      * @return if the decision in the accept or not.
      */
     public boolean getAccepted() {
@@ -47,7 +47,6 @@ public class Decision {
     }
 
     /**
-     *
      * @param accepted if the decision in the accept or not.
      */
     public void setAccepted(boolean accepted) {
@@ -55,7 +54,6 @@ public class Decision {
     }
 
     /**
-     *
      * @return the reason of the decision.
      */
     public String getReason() {
@@ -63,7 +61,6 @@ public class Decision {
     }
 
     /**
-     * 
      * @param reason the reason of the decision.
      */
     public void setReason(String reason) {

@@ -1,5 +1,5 @@
 package com.jayelh.jl;
- 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -18,13 +18,13 @@ public class DecisionResource {
     /**
      *
      */
-	@POST
-	@Path("/decisions")
+    @POST
+    @Path("/decisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response makeDecision(PurchaseRequest purchaseRequest) {
-	    Decision decision = decisionManager.decision(purchaseRequest);
- 
-	    return Response.status(200).entity(decision).build();
-	}
+        Decision decision = decisionManager.decision(purchaseRequest);
+
+        return Response.status(200).entity(decision).build();
+    }
 }
