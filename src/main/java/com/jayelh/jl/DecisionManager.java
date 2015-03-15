@@ -3,8 +3,8 @@ package com.jayelh.jl;
 /**
  * Created by johanlekberg on 14/03/15.
  */
-public interface PurchaseManager {
+public interface DecisionManager {
 
-    Result purchase(Data data);
+    Result decision(Data data);
 
 }

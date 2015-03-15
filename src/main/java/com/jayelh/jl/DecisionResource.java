@@ -6,17 +6,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/")
-public class PurchaseResource {
+public class DecisionResource {
 
     @Context
-    private PurchaseManager purchaseManager;
+    private DecisionManager decisionManager;
 
 	@POST
 	@Path("/decisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMsg(Data data) {
-	    Result result = purchaseManager.purchase(data);
+	    Result result = decisionManager.decision(data);
  
 	    return Response.status(200).entity(result).build();
 	}

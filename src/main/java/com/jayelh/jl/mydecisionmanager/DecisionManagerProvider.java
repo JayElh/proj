@@ -1,7 +1,7 @@
-package com.jayelh.jl.mypurchasemanager;
+package com.jayelh.jl.mydecisionmanager;
 //TODO: I need to put this in another package to be able to config wich manager to use
 
-import com.jayelh.jl.PurchaseManager;
+import com.jayelh.jl.DecisionManager;
 import com.sun.jersey.core.spi.component.ComponentContext;
 import com.sun.jersey.core.spi.component.ComponentScope;
 import com.sun.jersey.spi.inject.Injectable;
@@ -13,26 +13,26 @@ import javax.ws.rs.ext.Provider;
 import java.lang.reflect.Type;
 
 @Provider
-public class PurchaseManagerProvider implements InjectableProvider<Context, Type>, Injectable<PurchaseManager> {
+public class DecisionManagerProvider implements InjectableProvider<Context, Type>, Injectable<DecisionManager> {
 
 
-    private PurchaseManager myPurchaseManager;
+    private final static DecisionManager myDecisionManager = new MyDecisionManager();
 
-    @PostConstruct
+    /*@PostConstruct
     private void init() {
-        myPurchaseManager = new MyPurchaseManager();
+        //myDecisionManager = new MyDecisionManager();
     }
-
+*/
 
     @Override
-    public PurchaseManager getValue() {return myPurchaseManager; }
+    public DecisionManager getValue() {return myDecisionManager; }
 
     @Override
     public ComponentScope getScope() { return ComponentScope.Singleton; }
 
     @Override
-    public Injectable<PurchaseManager> getInjectable(final ComponentContext ic, final Context context, final Type type) {
-        if (type.equals(PurchaseManager.class)) {
+    public Injectable<DecisionManager> getInjectable(final ComponentContext ic, final Context context, final Type type) {
+        if (type.equals(DecisionManager.class)) {
             return this;
         } else {
             return null;
