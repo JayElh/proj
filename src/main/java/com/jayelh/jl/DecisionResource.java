@@ -15,8 +15,8 @@ public class DecisionResource {
 	@Path("/decisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMsg(Data data) {
-	    Result result = decisionManager.decision(data);
+    public Response getMsg(PurchaseRequest purchaseRequest) {
+	    Result result = decisionManager.decision(purchaseRequest);
  
 	    return Response.status(200).entity(result).build();
 	}

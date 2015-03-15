@@ -21,7 +21,7 @@ public class MyDecisionManagerTest
     {
         super(testName);
 
-        myDecisionManager = new MyDecisionManager();
+        myDecisionManager = MyDecisionManager.getInstance();
 
     }
 
@@ -38,22 +38,22 @@ public class MyDecisionManagerTest
      */
     public void testRepeatedPurchase() {
         Result result;
-        Data data = new Data("jl@ab.se", "first", "last", 100);
+        PurchaseRequest purchaseRequest = new PurchaseRequest("jl@ab.se", "first", "last", 100);
 
-        result = myDecisionManager.decision(data);
+        result = myDecisionManager.decision(purchaseRequest);
         assertEquals("reason should be ok", result.getReason(), "ok");
         assertTrue("Should be true", result.isAccepted());
 
-        result = myDecisionManager.decision(data);
+        result = myDecisionManager.decision(purchaseRequest);
         assertEquals("reason should be ok", result.getReason(), "ok");
         assertTrue("Should be true", result.isAccepted());
 
-        data = new Data("jl@ab.se", "first", "last", 800);
-        result = myDecisionManager.decision(data);
+        purchaseRequest = new PurchaseRequest("jl@ab.se", "first", "last", 800);
+        result = myDecisionManager.decision(purchaseRequest);
         assertEquals("reason should be ok", result.getReason(), "ok");
         assertTrue("Should be true", result.isAccepted());
 
-        result = myDecisionManager.decision(data);
+        result = myDecisionManager.decision(purchaseRequest);
         assertEquals("reason should be debt", result.getReason(), "debt");
         assertFalse("Should be false", result.isAccepted());
     }

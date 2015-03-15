@@ -3,16 +3,16 @@ package com.jayelh.jl;
 /**
  * Created by johanlekberg on 14/03/15.
  */
-public class Data {
+public class PurchaseRequest {
     private String email;
     private String first_name;
     private String last_name;
     private int amount;
 
-    public Data() {
+    public PurchaseRequest() {
     }
 
-    public Data(String email, String first_name, String last_name, int amount) {
+    public PurchaseRequest(String email, String first_name, String last_name, int amount) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;

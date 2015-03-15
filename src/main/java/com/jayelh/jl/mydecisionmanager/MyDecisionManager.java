@@ -1,9 +1,10 @@
 package com.jayelh.jl.mydecisionmanager;
 
-import com.jayelh.jl.Data;
+import com.jayelh.jl.PurchaseRequest;
 import com.jayelh.jl.DecisionManager;
 import com.jayelh.jl.Result;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,38 +12,41 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by johanlekberg on 14/03/15.
  */
 public class MyDecisionManager implements DecisionManager {
-    //TODO: move these to result, enum?
-    public static final String REASON_AMOUNT = "amount";
-    public static final String REASON_DEBT = "debt";
-    public static final String REASON_OK = "ok";
-
     private Map<String, Integer> map;
+    private static MyDecisionManager instance = null;
 
-    public MyDecisionManager() {
-        map = new ConcurrentHashMap<String, Integer>();
+    private MyDecisionManager() {
+        map = new HashMap<String, Integer>();
+    }
+
+    public static MyDecisionManager getInstance() {
+        if(instance == null) {
+            instance = new MyDecisionManager();
+        }
+        return instance;
     }
 
     @Override
-    public Result decision(Data data) {
+    public Result decision(PurchaseRequest purchaseRequest) {
         //TODO: do I need to sync the whole method?
         Result result = new Result();
         int debt = 0;
 
         synchronized(this) {
-            if (map.containsKey(data.getEmail())) {
-                debt = map.get(data.getEmail());
+            if (map.containsKey(purchaseRequest.getEmail())) {
+                debt = map.get(purchaseRequest.getEmail());
             }
 
-            if (data.getAmount() > 1000) {
+            if (purchaseRequest.getAmount() > 1000) {
                 result.setAccepted(Boolean.FALSE);
-                result.setReason(REASON_AMOUNT);
-            } else if (debt + data.getAmount() > 1000) {
+                result.setReason(Result.REASON_AMOUNT);
+            } else if (debt + purchaseRequest.getAmount() > 1000) {
                 result.setAccepted(Boolean.FALSE);
-                result.setReason(REASON_DEBT);
+                result.setReason(Result.REASON_DEBT);
             } else {
-                map.put(data.getEmail(), debt + data.getAmount());
+                map.put(purchaseRequest.getEmail(), debt + purchaseRequest.getAmount());
                 result.setAccepted(Boolean.TRUE);
-                result.setReason(REASON_OK);
+                result.setReason(Result.REASON_OK);
             }
         }
         return result;

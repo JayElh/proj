@@ -15,17 +15,8 @@ import java.lang.reflect.Type;
 @Provider
 public class DecisionManagerProvider implements InjectableProvider<Context, Type>, Injectable<DecisionManager> {
 
-
-    private final static DecisionManager myDecisionManager = new MyDecisionManager();
-
-    /*@PostConstruct
-    private void init() {
-        //myDecisionManager = new MyDecisionManager();
-    }
-*/
-
     @Override
-    public DecisionManager getValue() {return myDecisionManager; }
+    public DecisionManager getValue() {return MyDecisionManager.getInstance(); }
 
     @Override
     public ComponentScope getScope() { return ComponentScope.Singleton; }
