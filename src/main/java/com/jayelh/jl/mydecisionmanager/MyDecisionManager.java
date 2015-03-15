@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by johanlekberg on 14/03/15.
+ * MyDecisionManager handles the decision algorithm.
+ * It stores a Map in memory holding debt for a certain user based on email
+ * It is implemented as a singleton.
  */
 public class MyDecisionManager implements DecisionManager {
     private Map<String, Integer> map;
@@ -18,6 +20,10 @@ public class MyDecisionManager implements DecisionManager {
         map = new HashMap<String, Integer>();
     }
 
+    /**
+     *
+     * @return The singleton instance of MyDecisionManager
+     */
     public static MyDecisionManager getInstance() {
         if(instance == null) {
             instance = new MyDecisionManager();
@@ -25,6 +31,10 @@ public class MyDecisionManager implements DecisionManager {
         return instance;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Decision decision(PurchaseRequest purchaseRequest) {
         //TODO: do I need to sync the whole method?
