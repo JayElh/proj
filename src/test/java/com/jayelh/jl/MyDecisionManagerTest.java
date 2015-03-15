@@ -37,24 +37,24 @@ public class MyDecisionManagerTest
      * Rigourous Test :-)
      */
     public void testRepeatedPurchase() {
-        Result result;
+        Decision decision;
         PurchaseRequest purchaseRequest = new PurchaseRequest("jl@ab.se", "first", "last", 100);
 
-        result = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", result.getReason(), "ok");
-        assertTrue("Should be true", result.isAccepted());
+        decision = myDecisionManager.decision(purchaseRequest);
+        assertEquals("reason should be ok", decision.getReason(), "ok");
+        assertTrue("Should be true", decision.isAccepted());
 
-        result = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", result.getReason(), "ok");
-        assertTrue("Should be true", result.isAccepted());
+        decision = myDecisionManager.decision(purchaseRequest);
+        assertEquals("reason should be ok", decision.getReason(), "ok");
+        assertTrue("Should be true", decision.isAccepted());
 
         purchaseRequest = new PurchaseRequest("jl@ab.se", "first", "last", 800);
-        result = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", result.getReason(), "ok");
-        assertTrue("Should be true", result.isAccepted());
+        decision = myDecisionManager.decision(purchaseRequest);
+        assertEquals("reason should be ok", decision.getReason(), "ok");
+        assertTrue("Should be true", decision.isAccepted());
 
-        result = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be debt", result.getReason(), "debt");
-        assertFalse("Should be false", result.isAccepted());
+        decision = myDecisionManager.decision(purchaseRequest);
+        assertEquals("reason should be debt", decision.getReason(), "debt");
+        assertFalse("Should be false", decision.isAccepted());
     }
 }

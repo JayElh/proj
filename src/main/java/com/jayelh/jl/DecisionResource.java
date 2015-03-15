@@ -16,8 +16,8 @@ public class DecisionResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMsg(PurchaseRequest purchaseRequest) {
-	    Result result = decisionManager.decision(purchaseRequest);
+	    Decision decision = decisionManager.decision(purchaseRequest);
  
-	    return Response.status(200).entity(result).build();
+	    return Response.status(200).entity(decision).build();
 	}
 }

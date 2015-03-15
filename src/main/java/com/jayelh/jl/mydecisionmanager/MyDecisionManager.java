@@ -2,11 +2,10 @@ package com.jayelh.jl.mydecisionmanager;
 
 import com.jayelh.jl.PurchaseRequest;
 import com.jayelh.jl.DecisionManager;
-import com.jayelh.jl.Result;
+import com.jayelh.jl.Decision;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by johanlekberg on 14/03/15.
@@ -27,9 +26,9 @@ public class MyDecisionManager implements DecisionManager {
     }
 
     @Override
-    public Result decision(PurchaseRequest purchaseRequest) {
+    public Decision decision(PurchaseRequest purchaseRequest) {
         //TODO: do I need to sync the whole method?
-        Result result = new Result();
+        Decision decision = new Decision();
         int debt = 0;
 
         synchronized(this) {
@@ -38,17 +37,17 @@ public class MyDecisionManager implements DecisionManager {
             }
 
             if (purchaseRequest.getAmount() > 1000) {
-                result.setAccepted(Boolean.FALSE);
-                result.setReason(Result.REASON_AMOUNT);
+                decision.setAccepted(Boolean.FALSE);
+                decision.setReason(Decision.REASON_AMOUNT);
             } else if (debt + purchaseRequest.getAmount() > 1000) {
-                result.setAccepted(Boolean.FALSE);
-                result.setReason(Result.REASON_DEBT);
+                decision.setAccepted(Boolean.FALSE);
+                decision.setReason(Decision.REASON_DEBT);
             } else {
                 map.put(purchaseRequest.getEmail(), debt + purchaseRequest.getAmount());
-                result.setAccepted(Boolean.TRUE);
-                result.setReason(Result.REASON_OK);
+                decision.setAccepted(Boolean.TRUE);
+                decision.setReason(Decision.REASON_OK);
             }
         }
-        return result;
+        return decision;
     }
 }

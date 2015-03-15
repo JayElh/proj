@@ -5,6 +5,6 @@ package com.jayelh.jl;
  */
 public interface DecisionManager {
 
-    Result decision(PurchaseRequest purchaseRequest);
+    Decision decision(PurchaseRequest purchaseRequest);
 
 }
