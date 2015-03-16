@@ -11,7 +11,7 @@ public interface DecisionManager {
      *
      * @param purchaseRequest the purchase that should be acted on
      * @return the decision of the purchase
+     * * @throws IllegalArgumentException
      */
-    Decision decision(PurchaseRequest purchaseRequest);
-
+    Decision decision(PurchaseRequest purchaseRequest) throws IllegalArgumentException;
 }

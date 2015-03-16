@@ -7,18 +7,19 @@ import java.net.URISyntaxException;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.junit.Test;
 
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
+import org.junit.Test;
 
 import javax.ws.rs.core.MediaType;
 
+
 /**
- * Integration Test for the DecsionResource
+ * Integration Test for the DecisionResource
  */
 public class DecisionResourceIT extends JerseyTest {
     @Override
@@ -27,7 +28,7 @@ public class DecisionResourceIT extends JerseyTest {
     }
 
     /**
-     * Tests first repeatedly request for the same user untill debt to high. After that tries another user once.
+     * Tests first repeatedly request for the same user until debt to high. After that tries another user once.
      * @throws JSONException
      * @throws URISyntaxException
      */
@@ -60,7 +61,7 @@ public class DecisionResourceIT extends JerseyTest {
     }
 
     /**
-     * Tests a request with to hight amount.
+     * Tests a request with to high amount.
      * @throws JSONException
      * @throws URISyntaxException
      */
@@ -75,6 +76,25 @@ public class DecisionResourceIT extends JerseyTest {
     }
 
     /**
+     * Tests a request with illegal amount.
+     * @throws JSONException
+     * @throws URISyntaxException
+     */
+    @Test
+    public void testIllegalAmount() throws JSONException,
+            URISyntaxException {
+        WebResource webResource = client().resource("http://localhost:8080/");
+        try {
+            JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_JSON).post(JSONObject.class, "{\"email\": \"d@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": -100}");
+        } catch (UniformInterfaceException e) {
+            assertEquals("Should have recived 400", e.getResponse().getStatus(), 400);
+            return;
+        }
+
+        assertTrue("Should have thrown exception", Boolean.FALSE);
+    }
+
+    /**
      * Tests a request with a non allowed mediatype.
      * @throws JSONException
      * @throws URISyntaxException
@@ -86,6 +106,26 @@ public class DecisionResourceIT extends JerseyTest {
         try {
             JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_XHTML_XML).post(JSONObject.class, "{\"email\": \"d@b.se\", \"first_name\" : \"a\", \"last_name\": \"b\", \"amount\": 100}");
         } catch (UniformInterfaceException e) {
+            assertEquals("Should have recived 415", e.getResponse().getStatus(), 415);
+            return;
+        }
+
+        assertTrue("Should have thrown exception", Boolean.FALSE);
+    }
+
+    /**
+     * Tests a request with a missing JSON key/value pair
+     * @throws JSONException
+     * @throws URISyntaxException
+     */
+    @Test
+    public void testIncompleteJSON() throws JSONException,
+            URISyntaxException {
+        WebResource webResource = client().resource("http://localhost:8080/");
+        try {
+            JSONObject json = webResource.path("/decisions").type(MediaType.APPLICATION_XHTML_XML).post(JSONObject.class, "{\"email\": \"d@b.se\", \"first_name\" : \"a\", \"amount\": 100}");
+        } catch (UniformInterfaceException e) {
+            assertEquals("Should have recived 415", e.getResponse().getStatus(), 415);
             return;
         }
 

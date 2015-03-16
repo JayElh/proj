@@ -30,14 +30,16 @@ public class DecisionResource {
      * @see Decision
      */
 
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response makeDecision(PurchaseRequest purchaseRequest) {
-        Decision decision = decisionManager.decision(purchaseRequest);
-
-        return Response.status(200).entity(decision).build();
+        Decision decision = new Decision();
+        try {
+            decision = decisionManager.decision(purchaseRequest);
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Illegal value of amount, should be greater than zero!").build();
+        }
+        return Response.status(Response.Status.OK).entity(decision).build();
     }
-
 }

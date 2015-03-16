@@ -20,9 +20,7 @@ public class MyDecisionManagerTest
     public MyDecisionManagerTest(String testName)
     {
         super(testName);
-
         myDecisionManager = MyDecisionManager.getInstance();
-
     }
 
     /**
@@ -75,6 +73,17 @@ public class MyDecisionManagerTest
         assertFalse("Should be false", decision.getAccepted());
     }
 
-    //TODO: error cases
-
+    /**
+     * Tests a illegal amount
+     */
+    public void testIllegalAmount() {
+        Decision decision;
+        PurchaseRequest purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", -10);
+        try {
+            decision = myDecisionManager.decision(purchaseRequest);
+        } catch (IllegalArgumentException e) {
+            return;
+        }
+        assertTrue("Should have thrown Exception!", Boolean.FALSE);
+    }
 }

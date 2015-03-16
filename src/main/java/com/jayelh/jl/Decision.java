@@ -40,28 +40,28 @@ public class Decision {
     }
 
     /**
-     * @return if the decision in the accept or not.
+     * @return if the decision is the accept or not.
      */
     public boolean getAccepted() {
         return accepted;
     }
 
     /**
-     * @param accepted if the decision in the accept or not.
+     * @param accepted if the decision is the accept or not.
      */
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
 
     /**
-     * @return the reason of the decision.
+     * @return the reason for the decision.
      */
     public String getReason() {
         return reason;
     }
 
     /**
-     * @param reason the reason of the decision.
+     * @param reason the reason for the decision.
      */
     public void setReason(String reason) {
         this.reason = reason;

@@ -30,15 +30,17 @@ public class MyDecisionManager implements DecisionManager {
         return instance;
     }
 
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Decision decision(PurchaseRequest purchaseRequest) {
-        //TODO: do I need to sync the whole method?
+    public Decision decision(PurchaseRequest purchaseRequest) throws IllegalArgumentException {
         Decision decision = new Decision();
         int debt = 0;
+
+        if(purchaseRequest.getAmount() < 0) {
+            throw new IllegalArgumentException("Amount should be greater than zero!");
+        }
 
         synchronized (this) {
             if (map.containsKey(purchaseRequest.getEmail())) {
