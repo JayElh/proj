@@ -7,19 +7,31 @@ import javax.ws.rs.core.Response;
 
 
 /**
- * Jeresey REST Resource handling decisions of purchases
+ * Jeresey REST Resource, handling decisions of purchases
  */
-@Path("/")
+@Path("/decisions")
 public class DecisionResource {
 
     @Context
     private DecisionManager decisionManager;
 
     /**
+     * Handles POST request for /decision
      *
+     * Post body JSON structure(PurchaseRequest):
+     *
+     * {"email":      <String>,
+     * "first_name" : <String>,
+     * "last_name":   <String>,
+     * "amount":      <int>}
+     *
+     * @param purchaseRequest JavaBean representation of the incoming JSON object
+     * @return the Jersey HTTP response including a JSON representation of Decision
+     * @see Decision
      */
+
+
     @POST
-    @Path("/decisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response makeDecision(PurchaseRequest purchaseRequest) {
@@ -27,4 +39,5 @@ public class DecisionResource {
 
         return Response.status(200).entity(decision).build();
     }
+
 }
