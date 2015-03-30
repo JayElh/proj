@@ -6,6 +6,9 @@ import com.jayelh.jl.Decision;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * MyDecisionManager handles the decision algorithm.
@@ -15,9 +18,13 @@ import java.util.Map;
 public class MyDecisionManager implements DecisionManager {
     private Map<String, Integer> map;
     private static MyDecisionManager instance = null;
+    private ConcurrentMap<String, Integer> cache;
 
     private MyDecisionManager() {
         map = new HashMap<String, Integer>();
+
+
+        cache = new ConcurrentHashMap<String, Integer>();
     }
 
     /**
@@ -42,23 +49,22 @@ public class MyDecisionManager implements DecisionManager {
             throw new IllegalArgumentException("Amount should be greater than zero!");
         }
 
-        synchronized (this) {
-            if (map.containsKey(purchaseRequest.getEmail())) {
-                debt = map.get(purchaseRequest.getEmail());
-            }
+        if (purchaseRequest.getAmount() > 1000) {
+            decision.setAccepted(Boolean.FALSE);
+            decision.setReason(Decision.REASON_AMOUNT);
+        } else {
+            int value = cache.compute(purchaseRequest.getEmail(), (k, v) -> v == null ? purchaseRequest.getAmount() : v + purchaseRequest.getAmount());
 
-            if (purchaseRequest.getAmount() > 1000) {
-                decision.setAccepted(Boolean.FALSE);
-                decision.setReason(Decision.REASON_AMOUNT);
-            } else if (debt + purchaseRequest.getAmount() > 1000) {
+            if (value > 1000) {
+                cache.compute(purchaseRequest.getEmail(), (k, v) -> v == null  ? 0 : v - purchaseRequest.getAmount() );
                 decision.setAccepted(Boolean.FALSE);
                 decision.setReason(Decision.REASON_DEBT);
             } else {
-                map.put(purchaseRequest.getEmail(), debt + purchaseRequest.getAmount());
                 decision.setAccepted(Boolean.TRUE);
                 decision.setReason(Decision.REASON_OK);
             }
         }
+
         return decision;
     }
 }

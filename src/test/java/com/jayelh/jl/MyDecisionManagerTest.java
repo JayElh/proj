@@ -39,25 +39,31 @@ public class MyDecisionManagerTest
         PurchaseRequest purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", 100);
 
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", decision.getReason(), Decision.REASON_OK);
+        assertEquals("reason should be ok", Decision.REASON_OK, decision.getReason());
         assertTrue("Should be true", decision.getAccepted());
 
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", decision.getReason(), Decision.REASON_OK);
+        assertEquals("reason should be ok", Decision.REASON_OK, decision.getReason());
         assertTrue("Should be true", decision.getAccepted());
 
-        purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", 800);
+        purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", 600);
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be ok", decision.getReason(), Decision.REASON_OK);
+        assertEquals("reason should be ok", Decision.REASON_OK, decision.getReason());
         assertTrue("Should be true", decision.getAccepted());
 
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be debt", decision.getReason(), Decision.REASON_DEBT);
+        assertEquals("reason should be debt", Decision.REASON_DEBT, decision.getReason());
         assertFalse("Should be false", decision.getAccepted());
+
+        purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", 100);
+
+        decision = myDecisionManager.decision(purchaseRequest);
+        assertEquals("reason should be ok", Decision.REASON_OK, decision.getReason());
+        assertTrue("Should be true", decision.getAccepted());
 
         purchaseRequest = new PurchaseRequest("b@a.se", "first", "last", 100);
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("reason should be debt", decision.getReason(), Decision.REASON_OK);
+        assertEquals("reason should be debt", Decision.REASON_OK, decision.getReason());
         assertTrue("Should be true", decision.getAccepted());
     }
 
@@ -66,10 +72,10 @@ public class MyDecisionManagerTest
      */
     public void testHighAmount() {
         Decision decision;
-        PurchaseRequest purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", 1100);
+        PurchaseRequest purchaseRequest = new PurchaseRequest("b@b.se", "first", "last", 1100);
 
         decision = myDecisionManager.decision(purchaseRequest);
-        assertEquals("Reason should be amount", decision.getReason(), Decision.REASON_AMOUNT);
+        assertEquals("Reason should be amount", Decision.REASON_AMOUNT, decision.getReason());
         assertFalse("Should be false", decision.getAccepted());
     }
 
@@ -78,7 +84,7 @@ public class MyDecisionManagerTest
      */
     public void testIllegalAmount() {
         Decision decision;
-        PurchaseRequest purchaseRequest = new PurchaseRequest("a@b.se", "first", "last", -10);
+        PurchaseRequest purchaseRequest = new PurchaseRequest("c@b.se", "first", "last", -10);
         try {
             decision = myDecisionManager.decision(purchaseRequest);
         } catch (IllegalArgumentException e) {
