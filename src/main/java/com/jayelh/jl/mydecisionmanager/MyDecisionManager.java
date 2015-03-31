@@ -4,11 +4,8 @@ import com.jayelh.jl.PurchaseRequest;
 import com.jayelh.jl.DecisionManager;
 import com.jayelh.jl.Decision;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * MyDecisionManager handles the decision algorithm.
@@ -16,15 +13,11 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  * It is implemented as a singleton.
  */
 public class MyDecisionManager implements DecisionManager {
-    private Map<String, Integer> map;
     private static MyDecisionManager instance = null;
-    private ConcurrentMap<String, Integer> cache;
+    private ConcurrentMap<String, Integer> debtMap;
 
     private MyDecisionManager() {
-        map = new HashMap<String, Integer>();
-
-
-        cache = new ConcurrentHashMap<String, Integer>();
+        debtMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -43,7 +36,6 @@ public class MyDecisionManager implements DecisionManager {
     @Override
     public Decision decision(PurchaseRequest purchaseRequest) throws IllegalArgumentException {
         Decision decision = new Decision();
-        int debt = 0;
 
         if(purchaseRequest.getAmount() < 0) {
             throw new IllegalArgumentException("Amount should be greater than zero!");
@@ -53,18 +45,25 @@ public class MyDecisionManager implements DecisionManager {
             decision.setAccepted(Boolean.FALSE);
             decision.setReason(Decision.REASON_AMOUNT);
         } else {
-            int value = cache.compute(purchaseRequest.getEmail(), (k, v) -> v == null ? purchaseRequest.getAmount() : v + purchaseRequest.getAmount());
-
-            if (value > 1000) {
-                cache.compute(purchaseRequest.getEmail(), (k, v) -> v == null  ? 0 : v - purchaseRequest.getAmount() );
-                decision.setAccepted(Boolean.FALSE);
-                decision.setReason(Decision.REASON_DEBT);
-            } else {
-                decision.setAccepted(Boolean.TRUE);
-                decision.setReason(Decision.REASON_OK);
-            }
+            debtMap.compute(purchaseRequest.getEmail(), (k, v) -> {
+                        int result = 0;
+                        if (v == null) {
+                            result = purchaseRequest.getAmount();
+                            decision.setAccepted(Boolean.TRUE);
+                            decision.setReason(Decision.REASON_OK);
+                        } else if (v + purchaseRequest.getAmount() < 1000) {
+                            result = v + purchaseRequest.getAmount();
+                            decision.setAccepted(Boolean.TRUE);
+                            decision.setReason(Decision.REASON_OK);
+                        } else {
+                            result = v;
+                            decision.setAccepted(Boolean.FALSE);
+                            decision.setReason(Decision.REASON_DEBT);
+                        }
+                        return result;
+                    }
+            );
         }
-
         return decision;
     }
 }
